@@ -33,15 +33,18 @@ class LeerNoticias:
 
         texto = f'{LeerNoticias.soup.h1.text}.txt'
         
-        if '\n' in texto:
-            texto = texto.replace('\n', '')
+        #Elimina los carácteres que no pueden contener el nombre de un archivo
+        CARACTERES_PROHIBIDOS = ['\n', '¿', '?', '<', '>', ':', '"', '\\', '/', '|', '*']
+        for i in CARACTERES_PROHIBIDOS:
+            if i in texto:
+                texto = texto.replace(i, '')
 
         return 'news/'+texto #Devuelve ruta + titular
 
 
     def el_pais():
             try:
-                
+
                 noticia = LeerNoticias.desencriptar_noticia()
 
                 if not 'elpais' in LeerNoticias.url:
@@ -55,8 +58,8 @@ class LeerNoticias:
                 for i in data:
                     jason = json.loads(i.text) #Como los scripts son tipo json, usamos json.loads para convertirlos en texto y leerlos
                     if isinstance(jason, dict) and "articleBody" in jason.keys(): #comprobamos si el json leido es dict y si contiene articleBody, la noticia, la escribimos
-                        with open(noticia, 'a') as f:
-                            f.write(jason["articleBody"])
+                        with open(noticia, 'a', encoding='utf-8') as f:
+                            f.write(jason["articleBody"], )
             
 
             except UrlError:
@@ -82,7 +85,7 @@ class LeerNoticias:
             contador = 0
 
 
-            with open(noticia, 'a') as f:
+            with open(noticia, 'a', encoding='utf-8') as f:
                 for i in parrafos:
                     if contador > 11:
                         f.write(f'{i.get_text()}\n')
@@ -110,7 +113,7 @@ class LeerNoticias:
             
             parrafos = LeerNoticias.soup.find_all("p", class_="article-text")
 
-            with open(noticia, 'a') as f:
+            with open(noticia, 'a', encoding='utf-8') as f:
                 for i in parrafos:
                     x = i.get_text().lstrip()
                     f.write(x)
@@ -137,7 +140,7 @@ class LeerNoticias:
             parrafos = LeerNoticias.soup.find_all("p", class_ = "v-d-p") 
             
             
-            with open(noticia, 'a') as f:
+            with open(noticia, 'a', encoding='utf-8') as f:
                 for i in parrafos:
                     f.write(i.get_text())
         
@@ -167,7 +170,7 @@ class LeerNoticias:
             contador = 0
 
 
-            with open(noticia, 'a') as f:
+            with open(noticia, 'a', encoding='utf-8') as f:
                 for i in parrafos:
                     if contador > 11:
                         f.write(f'{i.get_text()}\n')
