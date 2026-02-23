@@ -7,8 +7,6 @@ Descifrar y leer de manera gratuita aquellos periódicos que poseen un muro de p
 
 *pandas: pip install pandas*
 
-*urllib: pip install urllib3*
-
 *bs4: pip install bs4*
 
 ### ¡Sería de gran ayudar avisar si se encuentra un error!
